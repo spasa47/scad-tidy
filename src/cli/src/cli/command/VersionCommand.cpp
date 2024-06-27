@@ -3,6 +3,7 @@
 //
 
 #include "VersionCommand.hpp"
+
 #include "CommandResult.hpp"
 
 namespace scad_tidy_cli::command

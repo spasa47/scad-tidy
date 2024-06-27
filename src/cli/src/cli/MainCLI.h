@@ -5,10 +5,11 @@
 #ifndef SCAD_TIDY_MAINCLI_H
 #define SCAD_TIDY_MAINCLI_H
 
+#include "command/CommandConcept.hpp"
+
 #include <cxxopts.hpp>
 #include <scad_utility/pointer_types.hpp>
 #include <scad_utility/utility.hpp>
-#include "command/CommandConcept.hpp"
 
 namespace scad_tidy_cli
 {
