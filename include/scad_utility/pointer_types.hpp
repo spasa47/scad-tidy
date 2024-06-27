@@ -6,8 +6,7 @@
 #define SCAD_TIDY_POINTER_TYPES_HPP
 
 #include <scad_utility/scad_utility_export.h>
-namespace SCAD_UTILITY_EXPORT scad_utility
-{
+namespace SCAD_UTILITY_EXPORT scad_utility {
   template<typename T>
   using ptr = T *;
 }

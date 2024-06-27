@@ -4,23 +4,23 @@ lexer grammar ScadLexer;
 @lexer::postinclude {
 /* lexer postinclude section */
 #ifndef _WIN32
-#  pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 }
 
 channels { CommentsChannel }
 
 
-AND : 'and';
-OR : 'or';
-NOT : 'not';
-EQ : '=';
-COMMA : ',';
-SEMI : ';';
-LPAREN : '(';
-RPAREN : ')';
-LCURLY : '{';
-RCURLY : '}';
+AND : 'and' ;
+OR : 'or' ;
+NOT : 'not' ;
+EQ : '=' ;
+COMMA : ',' ;
+SEMI : ';' ;
+LPAREN : '(' ;
+RPAREN : ')' ;
+LCURLY : '{' ;
+RCURLY : '}' ;
 PLUS : '+';
 MINUS : '-';
 TIMES : '*';
@@ -44,27 +44,33 @@ COLON : ':';
 
 QUESTIONMARK : '?';
 
-// for debuging
+//for debuging
 HASH : '#';
 
 PI : 'PI';
 FUNCTION : 'function';
 MODULE : 'module';
 
-NUMBER : INT( '.' DECIMALPART ) ? ;
+NUMBER : INT ('.' DECIMALPART)?;
 DECIMALPART : INT;
-INT : DIGIT + ;
-fragment DIGIT : [0 - 9];
-WS : [ \t\n\r\f] +->channel( HIDDEN );
-BOOL : 'true' | 'false';
-BlockComment : '/*'.*? '*/'->channel( CommentsChannel );
+INT : DIGIT+ ;
+fragment DIGIT: [0-9];
+WS: [ \t\n\r\f]+ -> channel(HIDDEN) ;
+BOOL: 'true' | 'false';
+BlockComment
+    : '/*' .*? '*/' -> channel(CommentsChannel)
+    ;
 
-LineComment : '//' ~[\r\n] * -> channel( CommentsChannel );
+LineComment
+    : '//' ~[\r\n]* -> channel(CommentsChannel)
+    ;
 
 STRINGLITERAL : '"' CHARSEQUENCE '"';
 
 
-fragment CHARSEQUENCE : CHAR + ;
+fragment CHARSEQUENCE
+    : CHAR+
+    ;
 
 fragment CHAR
     : ~["\\\r\n]
@@ -78,3 +84,4 @@ fragment EscapeSequence
     ;
 
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
+
