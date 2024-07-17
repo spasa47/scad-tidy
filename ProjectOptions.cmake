@@ -3,7 +3,6 @@ include(cmake/LibFuzzer.cmake)
 include(CMakeDependentOption)
 include(CheckCXXCompilerFlag)
 
-
 macro(scad_tidy_supports_sanitizers)
   if((CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES ".*GNU.*") AND NOT WIN32)
     set(SUPPORTS_UBSAN ON)
@@ -79,7 +78,10 @@ macro(scad_tidy_setup_options)
   endif()
 
   scad_tidy_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
-  if(LIBFUZZER_SUPPORTED AND (scad_tidy_ENABLE_SANITIZER_ADDRESS OR scad_tidy_ENABLE_SANITIZER_THREAD OR scad_tidy_ENABLE_SANITIZER_UNDEFINED))
+  if(LIBFUZZER_SUPPORTED
+     AND (scad_tidy_ENABLE_SANITIZER_ADDRESS
+          OR scad_tidy_ENABLE_SANITIZER_THREAD
+          OR scad_tidy_ENABLE_SANITIZER_UNDEFINED))
     set(DEFAULT_FUZZER ON)
   else()
     set(DEFAULT_FUZZER OFF)
@@ -99,7 +101,7 @@ macro(scad_tidy_global_options)
 
   if(scad_tidy_ENABLE_HARDENING AND scad_tidy_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
-    if(NOT SUPPORTS_UBSAN 
+    if(NOT SUPPORTS_UBSAN
        OR scad_tidy_ENABLE_SANITIZER_UNDEFINED
        OR scad_tidy_ENABLE_SANITIZER_ADDRESS
        OR scad_tidy_ENABLE_SANITIZER_THREAD
@@ -185,7 +187,7 @@ macro(scad_tidy_local_options)
 
   if(scad_tidy_ENABLE_HARDENING AND NOT scad_tidy_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
-    if(NOT SUPPORTS_UBSAN 
+    if(NOT SUPPORTS_UBSAN
        OR scad_tidy_ENABLE_SANITIZER_UNDEFINED
        OR scad_tidy_ENABLE_SANITIZER_ADDRESS
        OR scad_tidy_ENABLE_SANITIZER_THREAD

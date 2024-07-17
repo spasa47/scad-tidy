@@ -47,8 +47,17 @@ function(scad_tidy_enable_doxygen DOXYGEN_THEME)
   # find doxygen and dot if available
   find_package(Doxygen REQUIRED OPTIONAL_COMPONENTS dot)
 
+  # set(DOXYGEN_EXCLUDE_PATTERNS "*/CPMCache/*" "*/_deps/*" "*/build/*" "*/out/*" ${DOXYGEN_EXCLUDE_PATTERNS})
   # add doxygen-docs target
   message(STATUS "Adding `doxygen-docs` target that builds the documentation.")
-  doxygen_add_docs(doxygen-docs ALL ${PROJECT_SOURCE_DIR}
-                   COMMENT "Generating documentation - entry file: ${CMAKE_CURRENT_BINARY_DIR}/html/index.html")
+  doxygen_add_docs(
+    doxygen-docs
+    ALL
+    "${PROJECT_SOURCE_DIR}/src"
+    "${PROJECT_SOURCE_DIR}/include"
+    "${PROJECT_SOURCE_DIR}/README.md"
+    "${PROJECT_SOURCE_DIR}/README_building.md"
+    "${PROJECT_SOURCE_DIR}/README_dependencies.md"
+    "${PROJECT_SOURCE_DIR}/README_docker.md"
+    COMMENT "Generating documentation - entry file: ${CMAKE_CURRENT_BINARY_DIR}/html/index.html")
 endfunction()

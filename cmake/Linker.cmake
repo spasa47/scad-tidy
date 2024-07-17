@@ -4,7 +4,11 @@ macro(scad_tidy_configure_linker project_name)
   set(USER_LINKER_OPTION
       "lld"
       CACHE STRING "Linker to be used")
-  set(USER_LINKER_OPTION_VALUES "lld" "gold" "bfd" "mold")
+  set(USER_LINKER_OPTION_VALUES
+      "lld"
+      "gold"
+      "bfd"
+      "mold")
   set_property(CACHE USER_LINKER_OPTION PROPERTY STRINGS ${USER_LINKER_OPTION_VALUES})
   list(
     FIND
