@@ -16,11 +16,14 @@ program
     : statement* EOF
     ;
 
-operation : operand (binaryOperator operand)*;
-operand : unaryOperator? ID
+operation :  operand (binaryOperator operand)*
+        ;
+operand : unaryOperator?  ( ID
         | integer
-        | unaryOperator? functionCall
-        | LPAREN operation RPAREN;
+        | functionCall
+        | LPAREN operation RPAREN
+        | arrayAccessExpression)
+        ;
 negativeInt : MINUS NUMBER
             | PLUS negativeInt
             | MINUS positiveInt;
@@ -43,15 +46,20 @@ literal : integer
         | vector
         ;
 
-assignmentOperator : EQ;
+assignableExpression : literalExpression
+                     | ternaryOperator
+                     | arrayAccessExpression
+                     ;
 
-
+arrayAccessExpression : ID (LSQUARE (integer | ID) RSQUARE)+;
 
 binaryOperator : PLUS
                | MINUS
                | TIMES
                | DIVISION
                | PERCENTSIGN
+               | EQUALS
+               | NOTEQUALS
                ;
 unaryOperator : PLUS
               | MINUS
@@ -60,11 +68,11 @@ unaryOperator : PLUS
 function_declaration : FUNCTION ID LPAREN fun_params RPAREN EQ fun_body SEMI;
 
 fun_params :
-            | (fun_param COMMA)* fun_param
+            | (fun_param COMMA)* fun_param COMMA?
             ;
 
 fun_param : ID
-          | ID EQ literalExpression
+          | ID EQ assignableExpression
           ;
 
 fun_body : operation;
@@ -83,13 +91,24 @@ simpleStatement : function_declaration
           | variableAssignment
           | ifElseStatement
           | forStatement
+          | useStatement
           ;
 
-vector : LSQUARE literalExpression COMMA literalExpression COMMA literalExpression RSQUARE;
+useStatement : USE LESSTHAN ID (DOT ID)? GREATERTHAN;
+
+vector : LSQUARE ((assignableExpression COMMA)* assignableExpression)? RSQUARE;
 
 call_argument : literalExpression
-              | ID EQ literalExpression
+              | ID EQ assignableExpression
+              | reservedVariable EQ assignableExpression
+              | assignableExpression
               ;
+
+
+reservedVariable : FA
+                 | FS
+                 | FN
+                 ;
 
 call_arguments :
                 | (call_argument COMMA)* call_argument
@@ -103,7 +122,7 @@ module_call : ID LPAREN call_arguments RPAREN (SEMI | codeBlock | module_call);
 
 codeBlock : LCURLY statement* RCURLY;
 
-variableAssignment : ID EQ operation SEMI;
+variableAssignment : ID EQ assignableExpression SEMI;
 
 ifElseStatement : ifStatement elseIfStatement* elseStatement?;
 
@@ -113,7 +132,8 @@ elseIfStatement : ELSE IF LPAREN predicates RPAREN codeBlock;
 
 elseStatement : ELSE codeBlock;
 
-ternaryOperator : predicates QUESTIONMARK (operation|ternaryOperator) COLON (operation|ternaryOperator);
+ternaryOperator : predicates QUESTIONMARK (operation|ternaryOperator) COLON (operation|ternaryOperator)
+                | LPAREN ternaryOperator RPAREN;
 
 boolComparisonOperator : EQUALS
              | NOTEQUALS
@@ -129,8 +149,10 @@ boolBinaryOperator : LOGICAND
 boolUnaryOperator : LOGICNOT;
 
 predicate : BOOL
+          | ID
           | literalExpression boolComparisonOperator literalExpression
           | boolUnaryOperator predicate
+          | LPAREN predicate RPAREN
           ;
 predicates : (predicate boolBinaryOperator)* predicate;
 forStatement : FOR LPAREN rangeAssignmentList RPAREN codeBlock;
@@ -140,4 +162,4 @@ rangeAssignment : ID EQ range;
 rangeAssignmentList : ((rangeAssignment COMMA)* rangeAssignment)?;
 
 rangeList : ((range COMMA)* range)?;
-range : LSQUARE literalExpression COLON literalExpression RSQUARE;
+range : LSQUARE assignableExpression COLON assignableExpression RSQUARE;

@@ -10,7 +10,7 @@ lexer grammar ScadLexer;
 
 channels { CommentsChannel }
 
-
+USE : 'use' ;
 AND : 'and' ;
 OR : 'or' ;
 NOT : 'not' ;
@@ -41,15 +41,23 @@ LOGICAND : '&&';
 LOGICOR : '||';
 LOGICNOT : '!';
 COLON : ':';
+DOT : '.';
+
 
 QUESTIONMARK : '?';
 
 //for debuging
 HASH : '#';
 
-PI : 'PI';
+// keywords
 FUNCTION : 'function';
 MODULE : 'module';
+
+// predeclared variables
+PI : 'PI';
+FA : '$fa';
+FS : '$fs';
+FN : '$fn';
 
 NUMBER : INT ('.' DECIMALPART)?;
 DECIMALPART : INT;

@@ -9,7 +9,7 @@ docker run -it scad_tidy:latest
 ```
 
 This command will put you in a `bash` session in a Ubuntu 20.04 Docker container,
-with all of the tools listed in the [Dependencies](#dependencies) section already installed.
+with all of the tools listed in the [Dependencies](README_dependencies.md) section already installed.
 Additionally, you will have `g++-11` and `clang++-13` installed as the default
 versions of `g++` and `clang++`.
 
@@ -42,7 +42,7 @@ docker run -it \
 	my_project:latest
 ```
 
-You can configure and build [as directed above](#build) using these commands:
+You can configure and build as directed above using these commands:
 
 ```bash
 /starter_project# mkdir build
