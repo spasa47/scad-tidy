@@ -45,22 +45,6 @@ function(scad_tidy_setup_dependencies)
       catchorg/Catch2
       GIT_PROGRESS
       ON)
-    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
-  endif()
-
-  if(NOT TARGET doctest::doctest_with_main)
-    cpmaddpackage(
-      NAME
-      doctest
-      GITHUB_REPOSITORY
-      doctest/doctest
-      VERSION
-      2.4.11
-      GIT_PROGRESS
-      ON)
-    set(doctest_SOURCE_DIR
-        ${doctest_SOURCE_DIR}
-        PARENT_SCOPE)
   endif()
 
   if(NOT TARGET rangrang)

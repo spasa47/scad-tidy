@@ -134,7 +134,7 @@ macro(scad_tidy_local_options)
 
   if(scad_tidy_ENABLE_USER_LINKER)
     include(cmake/Linker.cmake)
-    configure_linker(scad_tidy_options)
+    scad_tidy_configure_linker(scad_tidy_options)
   endif()
 
   include(cmake/Sanitizers.cmake)
