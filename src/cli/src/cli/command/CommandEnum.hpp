@@ -10,28 +10,31 @@ namespace scad_tidy_cli::command
 {
   enum class CommandEnum : std::uint8_t { LINT, FORMAT, UNKNOWN };
 
-  constexpr auto commandEnumFromString(const std::string_view command) -> CommandEnum {
-    if (command == "lint") {
-      return CommandEnum::LINT;
+  constexpr auto commandEnumFromString( const std::string_view command ) -> CommandEnum
+  {
+    using enum scad_tidy_cli::command::CommandEnum;
+    if ( command == "lint" ) {
+      return LINT;
     }
-    if (command == "format") {
-      return CommandEnum::FORMAT;
+    if ( command == "format" ) {
+      return FORMAT;
     }
-    return CommandEnum::UNKNOWN;
+    return UNKNOWN;
   }
 
-  constexpr auto commandEnumToString(const CommandEnum command) -> std::string_view {
-    switch (command) {
-      case CommandEnum::LINT:
+  constexpr auto commandEnumToString( const CommandEnum command ) -> std::string_view
+  {
+    using enum scad_tidy_cli::command::CommandEnum;
+    switch ( command ) {
+      case LINT:
         return "lint";
-      case CommandEnum::FORMAT:
+      case FORMAT:
         return "format";
-      case CommandEnum::UNKNOWN:
+      case UNKNOWN:
         return "unknown";
     }
   }
 
 
-
-} // namespace scad_tidy_cli::command
+}  // namespace scad_tidy_cli::command
 #endif  // SCAD_TIDY_COMMANDENUM_HPP

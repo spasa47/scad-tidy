@@ -56,7 +56,7 @@ namespace scad_tidy_cli
     explicit MainCLI();
 
     auto run( const int                        argc,
-              const ptr<const ptr<const char>> argv ) -> scad_common::error::ErrorCode;
+              const ptr<const ptr<const char>> argv ) noexcept -> scad_common::error::ErrorCode;
   };
 
 }  // namespace scad_tidy_cli

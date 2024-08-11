@@ -26,44 +26,31 @@ namespace scad_tidy_cli
     using namespace command;
     using enum command::CommandEnum;
     using argparse::ArgumentParser;
-    using spdlog::debug;
-    using spdlog::error;
 
-    debug( "Setting up program" );
 
     program.add_description( constants::APP_DESCRIPTION.data() );
 
     lint_command.add_description( "Lint the provided files" );
     lint_command.add_argument( "files" ).remaining();
 
-    debug( "Adding lint command" );
 
     format_command.add_description( "Format the provided files" );
     format_command.add_argument( "files" ).remaining();
 
-    debug( "Adding format command" );
 
     program.add_subparser( lint_command );
     program.add_subparser( format_command );
-
-    debug( "Program setup complete" );
-
-    // add_options<HelpOption, VerboseOption, VersionOption, CommandCommand>();
-
-    // options.positional_help( "command [OPTION...] [FILENAME...]" );
   }
   auto MainCLI::run( [[maybe_unused]] const int                        argc,
-                     [[maybe_unused]] const ptr<const ptr<const char>> argv )
+                     [[maybe_unused]] const ptr<const ptr<const char>> argv ) noexcept
       -> scad_common::error::ErrorCode
   {
     using namespace command;
     using enum command::CommandEnum;
     using enum scad_common::error::ErrorCode;
     using argparse::ArgumentParser;
-    using spdlog::debug;
     using spdlog::error;
 
-    debug( "Parsing args:" );
     try {
       program.parse_args( argc, argv );
     } catch ( const std::exception & err ) {
@@ -71,10 +58,8 @@ namespace scad_tidy_cli
       return INVALID_COMMAND_ARGUMENTS;
     }
     if ( program.is_subcommand_used( lint_command ) ) {
-      debug( "Linting" );
       return scad_linter::lint( lint_command.get<std::vector<std::string>>( "files" ), {} );
     } else if ( program.is_subcommand_used( format_command ) ) {
-      debug( "Formatting" );
       return SUCCESS;
     } else {
       error( "Unknown command" );
