@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.15...3.23)
 
+block(SCOPE_FOR VARIABLES)
+# THis is needed because otherwise we lint Catch
+unset(CMAKE_CXX_CPPCHECK)
+unset(CMAKE_CXX_CLANG_TIDY)
 project(
   CmakeConfigPackageTests
   LANGUAGES CXX
@@ -9,7 +13,6 @@ project(
 
 if(PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
   enable_testing()
-
   find_package(scad_tidy CONFIG REQUIRED) # for cli, project_options, ...
 
   if(NOT TARGET scad_tidy_options)
@@ -17,6 +20,9 @@ if(PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
     return() # be strictly paranoid for Template Janitor github action! CK
   endif()
 endif()
+
+# Dependencies
+include(${Catch2_SOURCE_DIR}/extras/Catch.cmake)
 
 # Provide a simple smoke test to make sure that the CLI works and can display a --help message
 add_test(NAME cli.has_help_short COMMAND scad_tidy_cli -h)
@@ -30,4 +36,6 @@ add_test(NAME cli.version_matches COMMAND scad_tidy_cli --version)
 set_tests_properties(cli.version_matches PROPERTIES PASS_REGULAR_EXPRESSION
                                                     "${PROJECT_VERSION};^.+$;[0-9]+\.[0-9]+\.[0-9]+")
 
-#add_subdirectory(grammar)
+add_subdirectory(grammar)
+
+endblock()
