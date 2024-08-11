@@ -65,6 +65,22 @@ namespace SCAD_COMMON_EXPORT scad_common::linter
     POSSIBLE_LOSS_OF_PRECISION [[maybe_unused]],
   };
 
-  using AllLinterRules = scad_utility::CombineEnum<UnusedRule, FloatRule>;
+  enum class NamingRule : std::uint8_t {
+    CAMEL_CASE_MODULES [[maybe_unused]],
+    CAMEL_CASE_FUNCTIONS [[maybe_unused]],
+    CAMEL_CASE_VARIABLES [[maybe_unused]],
+    SNAKE_CASE_MODULES [[maybe_unused]],
+    SNAKE_CASE_FUNCTIONS [[maybe_unused]],
+    SNAKE_CASE_VARIABLES [[maybe_unused]],
+    UPPER_CASE_MODULES [[maybe_unused]],
+    UPPER_CASE_FUNCTIONS [[maybe_unused]],
+    UPPER_CASE_VARIABLES [[maybe_unused]],
+  };
+
+  enum class MiscRule : std::uint8_t {
+    NO_MAGIC_NUMBERS [[maybe_unused]],
+  };
+
+  using AllLinterRules = scad_utility::CombineEnum<UnusedRule, FloatRule, NamingRule, MiscRule>;
 }  // namespace scad_common::linter
 #endif  // SCAD_TIDY_LINTERRULES_HPP
